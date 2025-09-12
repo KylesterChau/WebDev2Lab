@@ -15,6 +15,12 @@ const users = [
 ];
 
 // broken test data for exercise 6
+const brokenUsers = [
+  { id: 11, age: 50 }, // missing name
+  { id: 12, name: "Boba Fett" }, // ok
+  { id: 13 }, // missing name
+];
+
 const namesList = document.getElementById("names-list");
 const youngCharactersList = document.getElementById("young-characters-list");
 const renderingCharactersList = document.getElementById("function-list");
@@ -39,9 +45,38 @@ users.forEach((user) => {
   }
 });
 // 3. Create a reusable function that takes any array and uses logic to render a list of character names in the HTML. Use this function to populate the list with id "function-list"
+displayListNames(users, "function-list");
+function displayListNames(array, elementID) {
+  const namesList = document.getElementById(elementID);
+  array.forEach((user) => {
+    try {
 
+      const listItem = document.createElement("li");
+
+      console.log(user.name);
+
+      listItem.textContent = user.name;
+      namesList.appendChild(listItem);
+    }
+    catch (error) {
+      console.error("Error: Object is missing 'name' property.", error);
+    }
+  });
+};
 // 4. Create a function that takes an array and an age threshold parameter. The function should only display characters whose age is below the given number. Render results in the list with id "age-filter-list"
+displayYoungCharacters(users, 35, "age-filter-list");
+function displayYoungCharacters(array, ageThreshold, elementID) {
+  const youngCharactersList = document.getElementById(elementID);
+  array.forEach((user) => {
+    if (user.age < ageThreshold) {
+      const listItem = document.createElement("li");
+      console.log(user.name);
 
+      listItem.textContent = user.name;
+      youngCharactersList.appendChild(listItem);
+    }
+  });
+}
 // 5. Add error handling to your functions that will log an error message using console.error() if any object doesn't have a "name" property. Display any error messages in the div with id "error-messages"
 
 // 6. Test your error handling by creating a second array that's intentionally broken (missing name properties) and passing it to your functions. Verify that your error handling works correctly and displays errors in the div with id "broken-array-errors"
